@@ -41,7 +41,6 @@
         countdown.textContent = '我們已結為連理';
         return;
       }
-
       const sec = Math.floor(diff / 1000);
       if (daysEl) daysEl.textContent = pad(Math.floor(sec / 86400), 3);
       if (hoursEl) hoursEl.textContent = pad(Math.floor((sec % 86400) / 3600), 2);
@@ -71,6 +70,7 @@
   const childExtras = document.getElementById('child-extras');
   const chair = document.getElementById('f-chair');
   const attend = document.getElementById('f-attend');
+  const attendanceDetailInputs = document.querySelectorAll('input[name="entry.1645885313"]');
   const statusEl = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn');
   const thanks = document.getElementById('thanks');
@@ -89,7 +89,6 @@
       childExtras.hidden = !hasChildren;
       childExtras.classList.toggle('is-open', hasChildren);
     }
-
     if (chair) {
       chair.disabled = !hasChildren;
       chair.required = hasChildren;
@@ -99,8 +98,7 @@
 
   function setError(id, message) {
     const input = document.getElementById(id);
-    if (!input) return;
-    const field = input.closest('.field');
+    const field = input?.closest('.field') || document.getElementById(id + '-field');
     const error = document.querySelector('[data-error-for="' + id + '"]');
     field?.classList.toggle('is-invalid', Boolean(message));
     if (error) error.textContent = message || '';
@@ -122,6 +120,7 @@
     const name = document.getElementById('f-name');
     const phone = document.getElementById('f-phone');
     const relation = document.getElementById('f-relation');
+    const attendanceDetail = document.querySelector('input[name="entry.1645885313"]:checked');
 
     if (!name?.value.trim()) {
       setError('f-name', '請填寫姓名');
@@ -144,6 +143,13 @@
       setError('f-relation', '');
     }
 
+    if (!attendanceDetail) {
+      setError('f-attendance-details', '請選擇出席資訊');
+      ok = false;
+    } else {
+      setError('f-attendance-details', '');
+    }
+
     if (!phone?.value.trim()) {
       setError('f-phone', '請填寫電話');
       ok = false;
@@ -156,13 +162,11 @@
     const childCount = validateCount('f-children', '兒童人數');
     if (totalCount === null || adultCount === null || childCount === null) ok = false;
 
-    if (totalCount !== null && adultCount !== null && childCount !== null) {
-      if (adultCount + childCount !== totalCount) {
-        setError('f-total', '總人數須等於成人人數加兒童人數');
-        setError('f-adults', '請核對人數');
-        setError('f-children', '請核對人數');
-        ok = false;
-      }
+    if (totalCount !== null && adultCount !== null && childCount !== null && adultCount + childCount !== totalCount) {
+      setError('f-total', '總人數須等於成人人數加兒童人數');
+      setError('f-adults', '請核對人數');
+      setError('f-children', '請核對人數');
+      ok = false;
     }
 
     if (childCount !== null && childCount > 0) {
@@ -191,13 +195,16 @@
     }
   });
 
+  attendanceDetailInputs.forEach((input) => {
+    input.addEventListener('change', () => setError('f-attendance-details', ''));
+  });
+
   form.addEventListener('submit', (event) => {
     if (!validate()) {
       event.preventDefault();
       statusEl.textContent = '請先補齊或核對必填欄位。';
       return;
     }
-
     pendingSubmit = true;
     submitBtn.disabled = true;
     statusEl.textContent = '正在送出……';
