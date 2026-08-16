@@ -3,11 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Permissions-Policy"
-      content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
-<meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; base-uri 'self'; form-action 'self' https://docs.google.com; frame-src https://docs.google.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; object-src 'none'; upgrade-insecure-requests">
     <title>Cherry &amp; David · 婚禮邀請</title>
     <meta name="description" content="誠邀您出席 Cherry 與 David 的婚禮。2027年1月17日，東涌世茂喜來登酒店。" />
     <meta property="og:title" content="Cherry &amp; David · 婚禮邀請" />
@@ -83,9 +78,6 @@
         <div class="hero-inner">
           <p class="eyebrow">The Wedding of</p>
           <h1 class="hero-title">Cherry <span class="hero-amp">&amp;</span> David</h1>
-          <p class="hero-meta">
-            <span class="nowrap">Hand in hand, we will build our forever</span>
-          </p>
           <p class="hero-meta">
             <span class="nowrap">二零二七年一月十七日</span>
             ·
@@ -311,31 +303,30 @@
                 </div>
 
                 <div class="field">
-                  <label class="field-label" for="f-ceremony">參加儀式人數<span class="field-en">CEREMONY</span><span class="req" aria-hidden="true">*</span></label>
-                  <input id="f-ceremony" name="entry.765053936" type="number" min="0" max="20" step="1" inputmode="numeric" required />
-                  <p class="field-error" data-error-for="f-ceremony"></p>
+                  <label class="field-label" for="f-total">當天的出席人數<span class="field-en">TOTAL GUESTS</span><span class="req" aria-hidden="true">*</span></label>
+                  <p class="field-hint" id="hint-total">請填寫包含自己在內的總人數</p>
+                  <input id="f-total" name="entry.765053936" type="number" min="0" max="20" step="1" inputmode="numeric" aria-describedby="hint-total" required />
+                  <p class="field-error" data-error-for="f-total"></p>
                 </div>
 
                 <div class="field">
-                  <label class="field-label" for="f-banquet">參加午宴人數<span class="field-en">BANQUET</span><span class="req" aria-hidden="true">*</span></label>
-                  <input id="f-banquet" name="entry.1567260636" type="number" min="0" max="20" step="1" inputmode="numeric" required />
-                  <p class="field-error" data-error-for="f-banquet"></p>
+                  <label class="field-label" for="f-adults">出席的成人人數<span class="field-en">ADULTS</span><span class="req" aria-hidden="true">*</span></label>
+                  <input id="f-adults" name="entry.1567260636" type="number" min="0" max="20" step="1" inputmode="numeric" required />
+                  <p class="field-error" data-error-for="f-adults"></p>
                 </div>
 
-                <div class="banquet-extras" id="banquet-extras" hidden>
-                  <div class="banquet-extras-inner">
+                <div class="field">
+                  <label class="field-label" for="f-children">出席的兒童人數<span class="field-en">CHILDREN</span><span class="req" aria-hidden="true">*</span></label>
+                  <input id="f-children" name="entry.1259066676" type="number" min="0" max="20" step="1" inputmode="numeric" required />
+                  <p class="field-error" data-error-for="f-children"></p>
+                </div>
+
+                <div class="child-extras" id="child-extras" hidden>
+                  <div class="child-extras-inner">
                     <div class="field">
-                      <label class="field-label" for="f-diet">飲食需求<span class="field-en">DIETARY</span></label>
-                      <input id="f-diet" name="entry.1259066676" type="text" />
-                      <p class="field-error" data-error-for="f-diet"></p>
-                    </div>
-                    <div class="field">
-                      <label class="field-label" for="f-chair">是否需要兒童椅<span class="field-en">HIGH CHAIR</span></label>
-                      <select id="f-chair" name="entry.1887387302">
-                        <option value="" selected>請選擇</option>
-                        <option value="需要">需要</option>
-                        <option value="不需要">不需要</option>
-                      </select>
+                      <label class="field-label" for="f-chair">是否需要兒童座椅？需要幾張呢？<span class="field-en">HIGH CHAIRS</span><span class="req" aria-hidden="true">*</span></label>
+                      <p class="field-hint" id="hint-chair">不需要請填 0</p>
+                      <input id="f-chair" name="entry.1887387302" type="number" min="0" max="20" step="1" inputmode="numeric" aria-describedby="hint-chair" />
                       <p class="field-error" data-error-for="f-chair"></p>
                     </div>
                   </div>
