@@ -890,81 +890,55 @@ body {
   }
 }
 
-/* 出席資訊：Google Form 比例 radio */
-.choice-field {
-  border: 0;
-  padding: 0;
-  min-inline-size: 0;
+/* 最終覆蓋：出席資訊 radio 尺寸 */
+#attendance-details-field .choice-item input[type='radio'] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  width: 16px !important;
+  min-width: 16px !important;
+  max-width: 16px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  max-height: 16px !important;
+  flex: 0 0 16px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1.5px solid #777 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  transform: none !important;
 }
 
-.choice-field .field-label {
-  display: block;
-  margin-bottom: 0.7rem;
+#attendance-details-field .choice-item input[type='radio']::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 3px !important;
+  right: 3px !important;
+  bottom: 3px !important;
+  left: 3px !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 50% !important;
+  background: #b87516 !important;
+  opacity: 0 !important;
+  transform: none !important;
 }
 
-.choice-list {
-  display: grid;
-  gap: 0.35rem;
+#attendance-details-field .choice-item input[type='radio']:checked {
+  border-color: #b87516 !important;
 }
 
-.choice-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  width: fit-content;
-  min-height: 2.25rem;
-  color: var(--color-text);
-  cursor: pointer;
-  line-height: 1.5;
+#attendance-details-field .choice-item input[type='radio']:checked::after {
+  opacity: 1 !important;
 }
 
-.choice-item input[type='radio'] {
-  appearance: none;
-  -webkit-appearance: none;
-  position: relative;
-  box-sizing: border-box;
-  width: 9px;
-  height: 9px;
-  flex: 0 0 9px;
-  margin: 0;
-  border: 1.5px solid #7b7b7b;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-}
-
-.choice-item input[type='radio']::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  border-radius: 50%;
-  background: #b87516;
-  opacity: 0;
-  transform: scale(0.65);
-  transition: opacity 150ms ease, transform 150ms ease;
-}
-
-.choice-item input[type='radio']:checked {
-  border-color: #b87516;
-}
-
-.choice-item input[type='radio']:checked::after {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.choice-item:hover input[type='radio'] {
-  border-color: #b87516;
-}
-
-.choice-item input[type='radio']:focus-visible {
-  outline: 2px solid var(--color-sage);
-  outline-offset: 3px;
-}
-
-@media (max-width: 640px) {
-  .choice-item {
-    min-height: 2.1rem;
-    font-size: var(--text-sm);
-  }
+#attendance-details-field .choice-item {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 32px !important;
+  font-size: var(--text-base) !important;
+  line-height: 1.45 !important;
 }
