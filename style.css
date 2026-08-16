@@ -889,3 +889,67 @@ body {
     letter-spacing: 0.04em;
   }
 }
+
+/* RSVP「出席資訊」選項：細小右側圓點，與文字基線對齊 */
+.choice-field {
+  border: 0;
+  padding: 0;
+  min-inline-size: 0;
+}
+
+.choice-field .field-label {
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+.choice-list {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.choice-item {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  width: fit-content;
+  color: var(--color-text);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.choice-item input[type='radio'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  flex: 0 0 0.7rem;
+  margin: 0;
+  border: 1px solid var(--color-text-faint);
+  border-radius: 50%;
+  background: transparent;
+  transition: border-color var(--transition-interactive), background-color var(--transition-interactive), box-shadow var(--transition-interactive);
+}
+
+.choice-item input[type='radio']:checked {
+  border-color: var(--color-sage);
+  background: var(--color-sage);
+  box-shadow: inset 0 0 0 0.15rem var(--color-surface);
+}
+
+.choice-item:hover input[type='radio'] {
+  border-color: var(--color-sage);
+}
+
+.choice-item input[type='radio']:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .choice-item {
+    font-size: var(--text-sm);
+    gap: 0.45rem;
+  }
+}
