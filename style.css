@@ -890,12 +890,42 @@ body {
   }
 }
 
-/* 最終覆蓋：出席資訊 radio 尺寸 */
+/* 最終版：出席資訊選項直向排列、移除 fieldset 外框 */
+#attendance-details-field {
+  display: block !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 0 var(--space-6) !important;
+  min-inline-size: 0 !important;
+}
+
+#attendance-details-field .field-label {
+  display: block !important;
+  margin: 0 0 var(--space-3) !important;
+  padding: 0 !important;
+}
+
+#attendance-details-field .choice-list {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.35rem !important;
+}
+
+#attendance-details-field .choice-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: auto !important;
+  min-height: 32px !important;
+  margin: 0 !important;
+  line-height: 1.45 !important;
+}
+
 #attendance-details-field .choice-item input[type='radio'] {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  box-sizing: border-box !important;
-  position: relative !important;
   width: 16px !important;
   min-width: 16px !important;
   max-width: 16px !important;
@@ -903,42 +933,12 @@ body {
   min-height: 16px !important;
   max-height: 16px !important;
   flex: 0 0 16px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: 1.5px solid #777 !important;
-  border-radius: 50% !important;
-  background: transparent !important;
-  transform: none !important;
 }
 
-#attendance-details-field .choice-item input[type='radio']::after {
-  content: "" !important;
-  position: absolute !important;
-  top: 3px !important;
-  right: 3px !important;
-  bottom: 3px !important;
-  left: 3px !important;
-  width: auto !important;
-  height: auto !important;
-  border-radius: 50% !important;
-  background: #b87516 !important;
-  opacity: 0 !important;
-  transform: none !important;
-}
-
-#attendance-details-field .choice-item input[type='radio']:checked {
-  border-color: #b87516 !important;
-}
-
-#attendance-details-field .choice-item input[type='radio']:checked::after {
-  opacity: 1 !important;
-}
-
+#attendance-details-field .choice-field,
+#attendance-details-field .choice-list,
 #attendance-details-field .choice-item {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  min-height: 32px !important;
-  font-size: var(--text-base) !important;
-  line-height: 1.45 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
 }
