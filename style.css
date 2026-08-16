@@ -829,3 +829,63 @@ body {
     grid-template-columns: 4.75rem 1fr;
   }
 }
+
+/* Mobile optimisations */
+@media (max-width: 640px) {
+  .hero {
+    min-height: 100svh;
+  }
+
+  /* 將背景相片的新人放在手機畫面視覺中心 */
+  .hero-media img {
+    object-position: 50% 34%;
+  }
+
+  .hero-inner {
+    padding: 7rem 1.25rem 2rem;
+  }
+
+  .hero-title {
+    font-size: clamp(3.25rem, 17vw, 5rem);
+    line-height: 0.9;
+  }
+
+  .hero-meta {
+    letter-spacing: 0.08em;
+    line-height: 1.7;
+  }
+
+  .countdown {
+    gap: 0.35rem;
+    margin-top: 1.5rem;
+  }
+
+  .tick-card {
+    min-height: 60px;
+    padding: 0.5rem 0.25rem;
+  }
+
+  .tick-inner {
+    gap: 0.25rem;
+  }
+
+  .tick-rule {
+    display: none;
+  }
+
+  .tick-num {
+    font-size: clamp(1.25rem, 6vw, 1.7rem);
+    text-align: center;
+  }
+
+  .tick-unit {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-links a {
+    padding-inline: 0.45rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+}
