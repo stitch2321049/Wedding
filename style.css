@@ -775,7 +775,7 @@ body {
 @media (min-width: 768px) {
   .nav-inner {
     padding-inline: var(--space-8);
-  }
+  }18
 
   .hero-inner {
     padding: var(--space-16) var(--space-8) var(--space-16);
@@ -923,9 +923,9 @@ body {
   -webkit-appearance: none;
   position: relative;
   box-sizing: border-box;
-  width: 18px;
-  height: 18px;
-  flex: 0 0 18px;
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
   margin: 0;
   border: 1.5px solid #7b7b7b;
   border-radius: 50%;
@@ -936,7 +936,7 @@ body {
 .choice-item input[type='radio']::after {
   content: "";
   position: absolute;
-  inset: 4px;
+  inset: 2px;
   border-radius: 50%;
   background: #b87516;
   opacity: 0;
