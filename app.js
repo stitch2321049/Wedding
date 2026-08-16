@@ -8,12 +8,11 @@
   root.setAttribute('data-theme', theme);
   updateThemeIcon();
 
-  toggle &&
-    toggle.addEventListener('click', () => {
-      theme = theme === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', theme);
-      updateThemeIcon();
-    });
+  toggle?.addEventListener('click', () => {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', theme);
+    updateThemeIcon();
+  });
 
   function updateThemeIcon() {
     if (!toggle) return;
@@ -25,30 +24,34 @@
   }
 
   const countdown = document.getElementById('countdown');
-  const daysEl = countdown.querySelector('[data-unit="days"]');
-  const hoursEl = countdown.querySelector('[data-unit="hours"]');
-  const minsEl = countdown.querySelector('[data-unit="mins"]');
-  const secsEl = countdown.querySelector('[data-unit="secs"]');
+  if (countdown) {
+    const daysEl = countdown.querySelector('[data-unit="days"]');
+    const hoursEl = countdown.querySelector('[data-unit="hours"]');
+    const minsEl = countdown.querySelector('[data-unit="mins"]');
+    const secsEl = countdown.querySelector('[data-unit="secs"]');
 
-  function pad(n, w) {
-    return String(Math.max(0, n)).padStart(w, '0');
-  }
-
-  function tick() {
-    const diff = WEDDING_START.getTime() - Date.now();
-    if (diff <= 0) {
-      countdown.classList.add('is-complete');
-      countdown.textContent = '我們已結為連理';
-      return;
+    function pad(n, width) {
+      return String(Math.max(0, n)).padStart(width, '0');
     }
-    const sec = Math.floor(diff / 1000);
-    daysEl.textContent = pad(Math.floor(sec / 86400), 3);
-    hoursEl.textContent = pad(Math.floor((sec % 86400) / 3600), 2);
-    minsEl.textContent = pad(Math.floor((sec % 3600) / 60), 2);
-    secsEl.textContent = pad(sec % 60, 2);
-    requestAnimationFrame(() => setTimeout(tick, 250));
+
+    function tick() {
+      const diff = WEDDING_START.getTime() - Date.now();
+      if (diff <= 0) {
+        countdown.classList.add('is-complete');
+        countdown.textContent = '我們已結為連理';
+        return;
+      }
+
+      const sec = Math.floor(diff / 1000);
+      if (daysEl) daysEl.textContent = pad(Math.floor(sec / 86400), 3);
+      if (hoursEl) hoursEl.textContent = pad(Math.floor((sec % 86400) / 3600), 2);
+      if (minsEl) minsEl.textContent = pad(Math.floor((sec % 3600) / 60), 2);
+      if (secsEl) secsEl.textContent = pad(sec % 60, 2);
+      window.setTimeout(tick, 250);
+    }
+
+    tick();
   }
-  tick();
 
   document.querySelectorAll('.acc-trigger').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -62,50 +65,56 @@
 
   const form = document.getElementById('rsvp-form');
   const iframe = document.getElementById('hidden_iframe');
-  const extras = document.getElementById('banquet-extras');
-  const banquet = document.getElementById('f-banquet');
-  const ceremony = document.getElementById('f-ceremony');
-  const attend = document.getElementById('f-attend');
-  const diet = document.getElementById('f-diet');
+  const total = document.getElementById('f-total');
+  const adults = document.getElementById('f-adults');
+  const children = document.getElementById('f-children');
+  const childExtras = document.getElementById('child-extras');
   const chair = document.getElementById('f-chair');
+  const attend = document.getElementById('f-attend');
   const statusEl = document.getElementById('form-status');
   const submitBtn = document.getElementById('submit-btn');
   const thanks = document.getElementById('thanks');
   let pendingSubmit = false;
 
-  function banquetCount() {
-    const n = Number.parseInt(banquet.value, 10);
-    return Number.isFinite(n) ? n : 0;
+  if (!form || !total || !adults || !children || !attend || !statusEl || !submitBtn) return;
+
+  function parseCount(input) {
+    const value = Number.parseInt(input.value, 10);
+    return Number.isFinite(value) ? value : 0;
   }
 
-  function syncExtras() {
-    const show = banquetCount() > 0;
-    extras.hidden = !show;
-    extras.classList.toggle('is-open', show);
-    diet.disabled = !show;
-    chair.disabled = !show;
-    if (!show) {
-      diet.value = '';
-      chair.value = '';
+  function syncChildExtras() {
+    const hasChildren = parseCount(children) > 0;
+    if (childExtras) {
+      childExtras.hidden = !hasChildren;
+      childExtras.classList.toggle('is-open', hasChildren);
+    }
+
+    if (chair) {
+      chair.disabled = !hasChildren;
+      chair.required = hasChildren;
+      if (!hasChildren) chair.value = '';
     }
   }
 
-  banquet.addEventListener('input', syncExtras);
-  banquet.addEventListener('change', syncExtras);
+  function setError(id, message) {
+    const input = document.getElementById(id);
+    if (!input) return;
+    const field = input.closest('.field');
+    const error = document.querySelector('[data-error-for="' + id + '"]');
+    field?.classList.toggle('is-invalid', Boolean(message));
+    if (error) error.textContent = message || '';
+  }
 
-  attend.addEventListener('change', () => {
-    if (attend.value === DECLINE) {
-      if (ceremony.value === '') ceremony.value = '0';
-      if (banquet.value === '') banquet.value = '0';
-      syncExtras();
+  function validateCount(id, label) {
+    const input = document.getElementById(id);
+    const value = Number.parseInt(input?.value, 10);
+    if (!input || input.value === '' || !Number.isFinite(value) || value < 0) {
+      setError(id, '請填寫' + label);
+      return null;
     }
-  });
-
-  function setError(id, msg) {
-    const field = document.getElementById(id).closest('.field');
-    const err = document.querySelector('[data-error-for="' + id + '"]');
-    field.classList.toggle('is-invalid', Boolean(msg));
-    if (err) err.textContent = msg || '';
+    setError(id, '');
+    return value;
   }
 
   function validate() {
@@ -114,58 +123,94 @@
     const phone = document.getElementById('f-phone');
     const relation = document.getElementById('f-relation');
 
-    if (!name.value.trim()) {
+    if (!name?.value.trim()) {
       setError('f-name', '請填寫姓名');
       ok = false;
-    } else setError('f-name', '');
+    } else {
+      setError('f-name', '');
+    }
 
     if (!attend.value) {
       setError('f-attend', '請選擇出席意向');
       ok = false;
-    } else setError('f-attend', '');
+    } else {
+      setError('f-attend', '');
+    }
 
-    if (!relation.value) {
+    if (!relation?.value) {
       setError('f-relation', '請選擇關係');
       ok = false;
-    } else setError('f-relation', '');
+    } else {
+      setError('f-relation', '');
+    }
 
-    if (!phone.value.trim()) {
+    if (!phone?.value.trim()) {
       setError('f-phone', '請填寫電話');
       ok = false;
-    } else setError('f-phone', '');
+    } else {
+      setError('f-phone', '');
+    }
 
-    const cer = Number.parseInt(ceremony.value, 10);
-    if (ceremony.value === '' || !Number.isFinite(cer) || cer < 0) {
-      setError('f-ceremony', '請填寫人數');
-      ok = false;
-    } else setError('f-ceremony', '');
+    const totalCount = validateCount('f-total', '總出席人數');
+    const adultCount = validateCount('f-adults', '成人人數');
+    const childCount = validateCount('f-children', '兒童人數');
+    if (totalCount === null || adultCount === null || childCount === null) ok = false;
 
-    const ban = Number.parseInt(banquet.value, 10);
-    if (banquet.value === '' || !Number.isFinite(ban) || ban < 0) {
-      setError('f-banquet', '請填寫人數');
-      ok = false;
-    } else setError('f-banquet', '');
+    if (totalCount !== null && adultCount !== null && childCount !== null) {
+      if (adultCount + childCount !== totalCount) {
+        setError('f-total', '總人數須等於成人人數加兒童人數');
+        setError('f-adults', '請核對人數');
+        setError('f-children', '請核對人數');
+        ok = false;
+      }
+    }
+
+    if (childCount !== null && childCount > 0) {
+      if (!chair?.value) {
+        setError('f-chair', '請選擇所需兒童座椅數量');
+        ok = false;
+      } else {
+        setError('f-chair', '');
+      }
+    } else {
+      setError('f-chair', '');
+    }
 
     return ok;
   }
 
-  form.addEventListener('submit', (e) => {
+  children.addEventListener('input', syncChildExtras);
+  children.addEventListener('change', syncChildExtras);
+
+  attend.addEventListener('change', () => {
+    if (attend.value === DECLINE) {
+      if (total.value === '') total.value = '0';
+      if (adults.value === '') adults.value = '0';
+      if (children.value === '') children.value = '0';
+      syncChildExtras();
+    }
+  });
+
+  form.addEventListener('submit', (event) => {
     if (!validate()) {
-      e.preventDefault();
-      statusEl.textContent = '請先補齊必填欄位。';
+      event.preventDefault();
+      statusEl.textContent = '請先補齊或核對必填欄位。';
       return;
     }
+
     pendingSubmit = true;
     submitBtn.disabled = true;
     statusEl.textContent = '正在送出……';
   });
 
-  iframe.addEventListener('load', () => {
+  iframe?.addEventListener('load', () => {
     if (!pendingSubmit) return;
     pendingSubmit = false;
     form.hidden = true;
-    thanks.hidden = false;
-    thanks.classList.add('is-visible');
+    if (thanks) {
+      thanks.hidden = false;
+      thanks.classList.add('is-visible');
+    }
     statusEl.textContent = '';
   });
 
@@ -179,5 +224,5 @@
     });
   });
 
-  syncExtras();
+  syncChildExtras();
 })();
