@@ -215,6 +215,204 @@
       </section>
     </main>
 
+<section class="memory-gallery" aria-labelledby="memory-gallery-title">
+  <div class="memory-gallery__ambient memory-gallery__ambient--sand" aria-hidden="true"></div>
+  <div class="memory-gallery__ambient memory-gallery__ambient--stone" aria-hidden="true"></div>
+
+  <div class="memory-gallery__header">
+    <p class="memory-gallery__eyebrow">OUR MEMORIES</p>
+    <h2 id="memory-gallery-title">我們的回憶</h2>
+    <p class="memory-gallery__intro">
+      每一段旅程，都成為我們故事裡溫柔的一頁。
+    </p>
+  </div>
+
+  <div class="memory-gallery__carousel" data-gallery-carousel>
+    <div
+      class="memory-gallery__viewport"
+      tabindex="0"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="我們的回憶相簿"
+      aria-describedby="memory-gallery-status"
+    >
+      <div class="memory-gallery__track">
+        <article class="memory-gallery__slide" data-gallery-slide>
+          <button
+            class="memory-gallery__photo memory-gallery__photo--one"
+            type="button"
+            data-gallery-open
+            data-gallery-full="images/gallery/gallery-01.jpg"
+            data-gallery-alt="Cherry 與 David 在旅行途中留下的合照"
+            aria-label="放大查看：Cherry 與 David 在旅行途中留下的合照"
+          >
+            <img
+              src="images/gallery/gallery-01.jpg"
+              alt="Cherry 與 David 在旅行途中留下的合照"
+              loading="lazy"
+              width="1200"
+              height="1500"
+            >
+          </button>
+        </article>
+
+        <article class="memory-gallery__slide" data-gallery-slide>
+          <button
+            class="memory-gallery__photo memory-gallery__photo--two"
+            type="button"
+            data-gallery-open
+            data-gallery-full="images/gallery/gallery-02.jpg"
+            data-gallery-alt="Cherry 與 David 的溫馨戶外時光"
+            aria-label="放大查看：Cherry 與 David 的溫馨戶外時光"
+          >
+            <img
+              src="images/gallery/gallery-02.jpg"
+              alt="Cherry 與 David 的溫馨戶外時光"
+              loading="lazy"
+              width="1200"
+              height="1500"
+            >
+          </button>
+        </article>
+
+        <article class="memory-gallery__slide" data-gallery-slide>
+          <button
+            class="memory-gallery__photo memory-gallery__photo--three"
+            type="button"
+            data-gallery-open
+            data-gallery-full="images/gallery/gallery-03.jpg"
+            data-gallery-alt="一段值得珍藏的二人回憶"
+            aria-label="放大查看：一段值得珍藏的二人回憶"
+          >
+            <img
+              src="images/gallery/gallery-03.jpg"
+              alt="一段值得珍藏的二人回憶"
+              loading="lazy"
+              width="1200"
+              height="1500"
+            >
+          </button>
+        </article>
+
+        <article class="memory-gallery__slide" data-gallery-slide>
+          <button
+            class="memory-gallery__photo memory-gallery__photo--four"
+            type="button"
+            data-gallery-open
+            data-gallery-full="images/gallery/gallery-04.jpg"
+            data-gallery-alt="Cherry 與 David 分享笑容的一刻"
+            aria-label="放大查看：Cherry 與 David 分享笑容的一刻"
+          >
+            <img
+              src="images/gallery/gallery-04.jpg"
+              alt="Cherry 與 David 分享笑容的一刻"
+              loading="lazy"
+              width="1200"
+              height="1500"
+            >
+          </button>
+        </article>
+
+        <article class="memory-gallery__slide" data-gallery-slide>
+          <button
+            class="memory-gallery__photo memory-gallery__photo--five"
+            type="button"
+            data-gallery-open
+            data-gallery-full="images/gallery/gallery-05.jpg"
+            data-gallery-alt="一個自然而平靜的旅途片段"
+            aria-label="放大查看：一個自然而平靜的旅途片段"
+          >
+            <img
+              src="images/gallery/gallery-05.jpg"
+              alt="一個自然而平靜的旅途片段"
+              loading="lazy"
+              width="1200"
+              height="1500"
+            >
+          </button>
+        </article>
+
+        <article class="memory-gallery__slide" data-gallery-slide>
+          <button
+            class="memory-gallery__photo memory-gallery__photo--six"
+            type="button"
+            data-gallery-open
+            data-gallery-full="images/gallery/gallery-06.jpg"
+            data-gallery-alt="屬於 Cherry 與 David 的甜蜜瞬間"
+            aria-label="放大查看：屬於 Cherry 與 David 的甜蜜瞬間"
+          >
+            <img
+              src="images/gallery/gallery-06.jpg"
+              alt="屬於 Cherry 與 David 的甜蜜瞬間"
+              loading="lazy"
+              width="1200"
+              height="1500"
+            >
+          </button>
+        </article>
+      </div>
+    </div>
+
+    <p id="memory-gallery-status" class="sr-only" aria-live="polite">
+      第 1 張，共 6 張
+    </p>
+
+    <div class="memory-gallery__controls">
+      <button
+        class="memory-gallery__control"
+        type="button"
+        data-gallery-prev
+        aria-label="顯示上一張相片"
+      >
+        <span aria-hidden="true">←</span>
+      </button>
+
+      <div
+        class="memory-gallery__dots"
+        data-gallery-dots
+        role="tablist"
+        aria-label="選擇相片"
+      ></div>
+
+      <button
+        class="memory-gallery__control"
+        type="button"
+        data-gallery-next
+        aria-label="顯示下一張相片"
+      >
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<div
+  class="gallery-lightbox"
+  id="gallery-lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="gallery-lightbox-caption"
+  aria-hidden="true"
+>
+  <div class="gallery-lightbox__backdrop" data-gallery-close></div>
+
+  <div class="gallery-lightbox__content" role="document">
+    <button
+      class="gallery-lightbox__close"
+      type="button"
+      data-gallery-close
+      aria-label="關閉放大相片"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+
+    <img class="gallery-lightbox__image" src="" alt="">
+    <p class="gallery-lightbox__caption" id="gallery-lightbox-caption"></p>
+  </div>
+</div>
+
+
+    
     <footer class="site-footer"><p>Cherry &amp; David · 17.01.2027</p></footer>
     <iframe name="hidden_iframe" id="hidden_iframe" title="表單提交" class="sr-only" tabindex="-1" aria-hidden="true"></iframe>
     <script src="./app.js" defer></script>
