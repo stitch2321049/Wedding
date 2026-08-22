@@ -105,7 +105,7 @@
             <div class="accordion" id="transport">
               <h3 class="section-kicker" style="margin: 2.5rem 0 0.75rem">交通指引</h3>
               <div class="acc-item"><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="panel-mtr" id="acc-mtr"><span>港鐵 · 東涌綫</span><span class="acc-plus" aria-hidden="true"></span></button><div class="acc-panel" id="panel-mtr" role="region" aria-labelledby="acc-mtr"><div class="acc-panel-inner"><ul role="list"><li>乘<span class="nowrap">東涌綫</span>至<span class="nowrap">東涌站</span>。</li><li>於<span class="nowrap">A 出口外停車灣</span>乘酒店穿梭巴士</li><li>酒店距離<span class="nowrap">東涌站</span>約 2.3 公里，建議預留時間。</li></ul></div></div></div>
-              <div class="acc-item"><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="panel-shuttle" id="acc-shuttle"><span>酒店穿梭巴士</span><span class="acc-plus" aria-hidden="true"></span></button><div class="acc-panel" id="panel-shuttle" role="region" aria-labelledby="acc-shuttle"><div class="acc-panel-inner"><ul role="list"><li><span class="nowrap">東涌站 A 出口外停車灣</span> ⇄ <span class="nowrap">東涌世茂喜來登酒店</span></li><li>東涌站開出：約 07:00–22:30，每 30 分鐘一班。</li><li>酒店開出：約 07:20–22:50。</li><li>此線主要供酒店住客使用。宴會賓客建議以的士前往，或於回函後向我們確認當日安排。</li><li>酒店穿梭巴士時間表:https://static.webapp-portal.com/resources/hkgscfp/lp/540501/262.pdf?1786949878</li></ul></div></div></div>
+              <div class="acc-item"><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="panel-shuttle" id="acc-shuttle"><span>酒店穿梭巴士</span><span class="acc-plus" aria-hidden="true"></span></button><div class="acc-panel" id="panel-shuttle" role="region" aria-labelledby="acc-shuttle"><div class="acc-panel-inner"><ul role="list"><li><span class="nowrap">東涌站 A 出口外停車灣</span> ⇄ <span class="nowrap">東涌世茂喜來登酒店</span></li><li>東涌站開出：約 07:00–22:30，每 30 分鐘一班。</li><li>酒店開出：約 07:20–22:50。</li><li>此線主要供酒店住客使用。宴會賓客建議以的士前往，或於回函後向我們確認當日安排。</li><li>酒店穿梭巴士時間表：<a href="https://static.webapp-portal.com/resources/hkgscfp/lp/540501/262.pdf?1786949878" target="_blank" rel="noopener noreferrer"> https://static.webapp-portal.com/resources/hkgscfp/lp/540501/262.pdf?1786949878 </a></li></ul></div></div></div>
               <div class="acc-item"><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="panel-car" id="acc-car"><span>自駕與停車</span><span class="acc-plus" aria-hidden="true"></span></button><div class="acc-panel" id="panel-car" role="region" aria-labelledby="acc-car"><div class="acc-panel-inner"><ul role="list"><li>地址：<span class="nowrap">大嶼山東涌怡東路 9 號</span></li><li>酒店商場灣景薈 (T-bay)設室內停車場，每小時約 HK$34</li></ul></div></div></div>
               <div class="acc-item"><button class="acc-trigger" type="button" aria-expanded="false" aria-controls="panel-taxi" id="acc-taxi"><span>的士</span><span class="acc-plus" aria-hidden="true"></span></button><div class="acc-panel" id="panel-taxi" role="region" aria-labelledby="acc-taxi"><div class="acc-panel-inner"><ul role="list"><li>直接前往<span class="nowrap">東涌世茂喜來登酒店</span>。</li><li>地址：<span class="nowrap">大嶼山東涌怡東路 9 號</span></li><li>由<span class="nowrap">東涌站</span>車程約 5 至 8 分鐘，是當日最穩妥的選擇。</li></ul></div></div></div>
             </div>
@@ -153,16 +153,6 @@
                   <p class="field-error" data-error-for="f-relation"></p>
                 </div>
 
-                <fieldset class="field choice-field" id="attendance-details-field">
-                  <legend class="field-label">出席資訊<span class="field-en">ATTENDANCE DETAILS</span><span class="req" aria-hidden="true">*</span></legend>
-                  <div class="choice-list">
-                    <label class="choice-item"><input type="radio" name="entry.1645885313" value="出席證婚儀式及午宴" /> <span>出席證婚儀式及午宴</span></label>
-                    <label class="choice-item"><input type="radio" name="entry.1645885313" value="只出席證婚儀式" /> <span>只出席證婚儀式</span></label>
-                    <label class="choice-item"><input type="radio" name="entry.1645885313" value="只出席午宴" /> <span>只出席午宴</span></label>
-                  </div>
-                  <p class="field-error" data-error-for="f-attendance-details"></p>
-                </fieldset>
-
                 <div class="field">
                   <label class="field-label" for="f-phone">電話<span class="field-en">PHONE</span><span class="req" aria-hidden="true">*</span></label>
                   <input id="f-phone" name="entry.2029074728" type="tel" inputmode="tel" autocomplete="tel" required />
@@ -186,6 +176,16 @@
                   <label class="field-label" for="f-children">出席的兒童人數<span class="field-en">CHILDREN</span><span class="req" aria-hidden="true">*</span></label>
                   <input id="f-children" name="entry.1259066676" type="number" min="0" max="20" step="1" inputmode="numeric" required />
                   <p class="field-error" data-error-for="f-children"></p>
+                </div>
+
+                <div class="field">
+                  <label class="field-label" for="f-attend">是否需要素食<span class="field-en">Vegetarian</span><span class="req" aria-hidden="true">*</span></label>
+                  <select id="f-attend" name="entry.1086004136">
+                    <option value="" selected>請選擇</option>
+                    <option value="是">是</option>
+                    <option value="否">否</option>
+                  </select>
+                  <p class="field-error" data-error-for="f-attend"></p>
                 </div>
 
                 <div class="child-extras" id="child-extras" hidden>
