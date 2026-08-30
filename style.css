@@ -619,6 +619,11 @@ body {
   margin-bottom: var(--space-5);
 }
 
+.field[hidden],
+.child-extras[hidden] {
+  display: none !important;
+}
+
 .field-label {
   font-size: var(--text-sm);
   color: var(--color-ink);
