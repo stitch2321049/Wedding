@@ -256,3 +256,256 @@ function validate() {
 
   syncAttendanceFields();
 })();
+
+/* =========================================================
+   Our Memories — Organic / Natural photo carousel
+   ========================================================= */
+(function initMemoryGallery() {
+  const carousel = document.querySelector("[data-gallery-carousel]");
+
+  if (!carousel) return;
+
+  const viewport = carousel.querySelector(".memory-gallery__viewport");
+  const slides = Array.from(carousel.querySelectorAll("[data-gallery-slide]"));
+  const previousButton = carousel.querySelector("[data-gallery-prev]");
+  const nextButton = carousel.querySelector("[data-gallery-next]");
+  const dotsContainer = carousel.querySelector("[data-gallery-dots]");
+  const status = document.getElementById("memory-gallery-status");
+
+  const lightbox = document.getElementById("gallery-lightbox");
+  const lightboxImage = lightbox?.querySelector(".gallery-lightbox__image");
+  const lightboxCaption = lightbox?.querySelector(".gallery-lightbox__caption");
+  const closeButtons = lightbox?.querySelectorAll("[data-gallery-close]") || [];
+
+  let activeIndex = 0;
+  let lastFocusedElement = null;
+  let dragStartX = 0;
+  let dragStartScrollLeft = 0;
+  let isDragging = false;
+
+  const dots = slides.map((_, index) => {
+    const dot = document.createElement("button");
+
+    dot.type = "button";
+    dot.className = "memory-gallery__dot";
+    dot.setAttribute("role", "tab");
+    dot.setAttribute("aria-label", `顯示第 ${index + 1} 張相片`);
+    dot.setAttribute("aria-controls", "memory-gallery-status");
+    dot.setAttribute("aria-selected", index === 0 ? "true" : "false");
+    dot.tabIndex = index === 0 ? 0 : -1;
+
+    dot.addEventListener("click", () => {
+      scrollToSlide(index, true);
+    });
+
+    dotsContainer.appendChild(dot);
+    return dot;
+  });
+
+  function getClosestSlideIndex() {
+    const viewportCenter = viewport.scrollLeft + viewport.clientWidth / 2;
+
+    return slides.reduce((closestIndex, slide, index) => {
+      const closestSlide = slides[closestIndex];
+      const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+      const closestCenter = closestSlide.offsetLeft + closestSlide.offsetWidth / 2;
+
+      return Math.abs(slideCenter - viewportCenter) <
+        Math.abs(closestCenter - viewportCenter)
+        ? index
+        : closestIndex;
+    }, 0);
+  }
+
+  function updateActiveSlide() {
+    const nextActiveIndex = getClosestSlideIndex();
+
+    if (nextActiveIndex === activeIndex && status?.textContent) return;
+
+    activeIndex = nextActiveIndex;
+
+    dots.forEach((dot, index) => {
+      const isActive = index === activeIndex;
+
+      dot.setAttribute("aria-selected", String(isActive));
+      dot.tabIndex = isActive ? 0 : -1;
+    });
+
+    if (status) {
+      status.textContent = `第 ${activeIndex + 1} 張，共 ${slides.length} 張`;
+    }
+  }
+
+  function scrollToSlide(index, shouldFocus = false) {
+    const normalizedIndex = (index + slides.length) % slides.length;
+    const slide = slides[normalizedIndex];
+
+    viewport.scrollTo({
+      left: slide.offsetLeft - (viewport.clientWidth - slide.offsetWidth) / 2,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth"
+    });
+
+    if (shouldFocus) {
+      dots[normalizedIndex].focus();
+    }
+  }
+
+  previousButton.addEventListener("click", () => {
+    scrollToSlide(activeIndex - 1);
+  });
+
+  nextButton.addEventListener("click", () => {
+    scrollToSlide(activeIndex + 1);
+  });
+
+  viewport.addEventListener("scroll", () => {
+    window.requestAnimationFrame(updateActiveSlide);
+  }, { passive: true });
+
+  viewport.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      scrollToSlide(activeIndex - 1, true);
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      scrollToSlide(activeIndex + 1, true);
+    }
+
+    if (event.key === "Home") {
+      event.preventDefault();
+      scrollToSlide(0, true);
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      scrollToSlide(slides.length - 1, true);
+    }
+  });
+
+  viewport.addEventListener("pointerdown", (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    isDragging = true;
+    dragStartX = event.clientX;
+    dragStartScrollLeft = viewport.scrollLeft;
+
+    viewport.classList.add("is-dragging");
+    viewport.setPointerCapture?.(event.pointerId);
+  });
+
+  viewport.addEventListener("pointermove", (event) => {
+    if (!isDragging) return;
+
+    const dragDistance = event.clientX - dragStartX;
+    viewport.scrollLeft = dragStartScrollLeft - dragDistance;
+  });
+
+  function finishDragging(event) {
+    if (!isDragging) return;
+
+    isDragging = false;
+    viewport.classList.remove("is-dragging");
+
+    if (event?.pointerId !== undefined) {
+      viewport.releasePointerCapture?.(event.pointerId);
+    }
+
+    updateActiveSlide();
+    scrollToSlide(activeIndex);
+  }
+
+  viewport.addEventListener("pointerup", finishDragging);
+  viewport.addEventListener("pointercancel", finishDragging);
+  viewport.addEventListener("pointerleave", (event) => {
+    if (isDragging && event.pointerType === "mouse") {
+      finishDragging(event);
+    }
+  });
+
+  function openLightbox(button) {
+    if (!lightbox || !lightboxImage || !lightboxCaption) return;
+
+    lastFocusedElement = button;
+    lightboxImage.src = button.dataset.galleryFull || "";
+    lightboxImage.alt = button.dataset.galleryAlt || "";
+    lightboxCaption.textContent = button.dataset.galleryAlt || "";
+
+    lightbox.classList.add("is-open");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.classList.add("gallery-lightbox-open");
+
+    const closeButton = lightbox.querySelector(".gallery-lightbox__close");
+    closeButton?.focus();
+  }
+
+  function closeLightbox() {
+    if (!lightbox || !lightbox.classList.contains("is-open")) return;
+
+    lightbox.classList.remove("is-open");
+    lightbox.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("gallery-lightbox-open");
+
+    window.setTimeout(() => {
+      if (lightboxImage) {
+        lightboxImage.src = "";
+        lightboxImage.alt = "";
+      }
+
+      if (lightboxCaption) {
+        lightboxCaption.textContent = "";
+      }
+    }, 300);
+
+    lastFocusedElement?.focus();
+  }
+
+  carousel.querySelectorAll("[data-gallery-open]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!isDragging) openLightbox(button);
+    });
+  });
+
+  closeButtons.forEach((button) => {
+    button.addEventListener("click", closeLightbox);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!lightbox?.classList.contains("is-open")) return;
+
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+
+    if (event.key === "Tab") {
+      const focusableElements = Array.from(
+        lightbox.querySelectorAll(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+
+      if (!focusableElements.length) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    window.requestAnimationFrame(updateActiveSlide);
+  });
+
+  updateActiveSlide();
+})();
+
