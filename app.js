@@ -143,81 +143,89 @@ function clearAttendanceOnlyValues() {
     syncChildExtras();
   }
 
-  function validate() {
-    let valid = true;
-    const name = document.getElementById('f-name');
+function validate() {
+  let valid = true;
+  const name = document.getElementById('f-name');
 
-    if (!name?.value.trim()) {
-      setError('f-name', '請填寫姓名');
+  if (!name?.value.trim()) {
+    setError('f-name', '請填寫姓名');
+    valid = false;
+  } else {
+    setError('f-name', '');
+  }
+
+  if (!attend?.value) {
+    setError('f-attend', '請選擇出席意向');
+    valid = false;
+  } else {
+    setError('f-attend', '');
+  }
+
+  if (!relation?.value) {
+    setError('f-relation', '請選擇關係');
+    valid = false;
+  } else {
+    setError('f-relation', '');
+  }
+
+  if (!phone?.value.trim()) {
+    setError('f-phone', '請填寫電話');
+    valid = false;
+  } else {
+    setError('f-phone', '');
+  }
+
+  if (attend?.value === DECLINE) {
+    return valid;
+  }
+
+  if (!vegetarian?.value) {
+    setError('f-vegetarian', '請選擇是否需要素食');
+    valid = false;
+  } else {
+    setError('f-vegetarian', '');
+  }
+
+  const totalCount = count('f-total');
+  const adultCount = count('f-adults');
+  const childCount = count('f-children');
+
+  [
+    ['f-total', totalCount, '總出席人數'],
+    ['f-adults', adultCount, '成人人數'],
+    ['f-children', childCount, '兒童人數']
+  ].forEach(([id, value, label]) => {
+    if (value === null) {
+      setError(id, '請填寫' + label);
       valid = false;
     } else {
-      setError('f-name', '');
+      setError(id, '');
     }
+  });
 
-    if (!attend?.value) {
-      setError('f-attend', '請選擇出席意向');
+  if (
+    totalCount !== null &&
+    adultCount !== null &&
+    childCount !== null &&
+    totalCount !== adultCount + childCount
+  ) {
+    setError('f-total', '總人數須等於成人人數加兒童人數');
+    valid = false;
+  }
+
+  if (childCount !== null && childCount > 0) {
+    if (!chair?.value) {
+      setError('f-chair', '請選擇所需兒童座椅數量');
       valid = false;
-    } else {
-      setError('f-attend', '');
-    }
-
-    if (!relation?.value) {
-      setError('f-relation', '請選擇關係');
-      valid = false;
-    } else {
-      setError('f-relation', '');
-    }
-
-    if (!phone?.value.trim()) {
-      setError('f-phone', '請填寫電話');
-      valid = false;
-    } else {
-      setError('f-phone', '');
-    }
-
-    if (attend?.value === DECLINE) return valid;
-
-    if (!vegetarian?.value) {
-  setError('f-vegetarian', '請選擇是否需要素食');
-  valid = false;
-} else {
-  setError('f-vegetarian', '');
-}
-
-    const totalCount = count('f-total');
-    const adultCount = count('f-adults');
-    const childCount = count('f-children');
-    [
-      ['f-total', totalCount, '總出席人數'],
-      ['f-adults', adultCount, '成人人數'],
-      ['f-children', childCount, '兒童人數']
-    ].forEach(([id, value, label]) => {
-      if (value === null) {
-        setError(id, '請填寫' + label);
-        valid = false;
-      } else {
-        setError(id, '');
-      }
-    });
-
-    if (totalCount !== null && adultCount !== null && childCount !== null && totalCount !== adultCount + childCount) {
-      setError('f-total', '總人數須等於成人人數加兒童人數');
-      valid = false;
-    }
-
-    if (childCount !== null && childCount > 0) {
-      if (!chair?.value) {
-        setError('f-chair', '請選擇所需兒童座椅數量');
-        valid = false;
-      } else {
-        setError('f-chair', '');
-      }
     } else {
       setError('f-chair', '');
     }
-
-    return valid;
+  } else {
+    setError('f-chair', '');
   }
+
+  return valid;
+}
 
   attend?.addEventListener('change', syncAttendanceFields);
   children?.addEventListener('input', syncChildExtras);
