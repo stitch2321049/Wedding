@@ -66,6 +66,8 @@
   const adults = document.getElementById('f-adults');
   const children = document.getElementById('f-children');
   const childExtras = document.getElementById('child-extras');
+  const vegetarian = document.getElementById('f-vegetarian');
+  const vegetarianField = document.getElementById('vegetarian-field');
   const chair = document.getElementById('f-chair');
   const attendanceDetails = document.getElementById('attendance-details-field');
   const attendanceDetailInputs = document.querySelectorAll('input[name="entry.1645885313"]');
@@ -95,6 +97,15 @@
     return input && input.value !== '' && Number.isInteger(value) && value >= 0 ? value : null;
   };
 
+const attendanceOnlyFields = [
+  attendanceDetails,
+  total?.closest('.field'),
+  adults?.closest('.field'),
+  children?.closest('.field'),
+  childExtras,
+  vegetarianField
+].filter(Boolean);
+  
   function clearAttendanceOnlyValues() {
     if (total) total.value = '';
     if (adults) adults.value = '';
@@ -172,6 +183,12 @@
 
     if (attend?.value === DECLINE) return valid;
 
+    if (!vegetarian?.value) {
+  setError('f-vegetarian', '請選擇是否需要素食');
+  valid = false;
+} else {
+  setError('f-vegetarian', '');
+}
     const attendanceChoice = document.querySelector('input[name="entry.1645885313"]:checked');
     if (!attendanceChoice) {
       setError('f-attendance-details', '請選擇出席資訊');
