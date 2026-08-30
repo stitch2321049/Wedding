@@ -74,13 +74,14 @@
   const status = document.getElementById('form-status');
   const submitButton = document.getElementById('submit-btn');
   const thanks = document.getElementById('thanks');
-  const attendanceOnlyFields = [
-    attendanceDetails,
-    total?.closest('.field'),
-    adults?.closest('.field'),
-    children?.closest('.field'),
-    childExtras
-  ].filter(Boolean);
+const attendanceOnlyFields = [
+  attendanceDetails,
+  total?.closest('.field'),
+  adults?.closest('.field'),
+  children?.closest('.field'),
+  childExtras,
+  vegetarianField
+].filter(Boolean);
   let pendingSubmit = false;
 
   const setError = (id, message) => {
@@ -96,26 +97,27 @@
     const value = Number.parseInt(input?.value, 10);
     return input && input.value !== '' && Number.isInteger(value) && value >= 0 ? value : null;
   };
-
-const attendanceOnlyFields = [
-  attendanceDetails,
-  total?.closest('.field'),
-  adults?.closest('.field'),
-  children?.closest('.field'),
-  childExtras,
-  vegetarianField
-].filter(Boolean);
   
-  function clearAttendanceOnlyValues() {
-    if (total) total.value = '';
-    if (adults) adults.value = '';
-    if (children) children.value = '';
-    if (chair) chair.value = '';
-    attendanceDetailInputs.forEach((input) => {
-      input.checked = false;
-    });
-    ['f-attendance-details', 'f-total', 'f-adults', 'f-children', 'f-chair'].forEach((id) => setError(id, ''));
-  }
+function clearAttendanceOnlyValues() {
+  if (total) total.value = '';
+  if (adults) adults.value = '';
+  if (children) children.value = '';
+  if (chair) chair.value = '';
+  if (vegetarian) vegetarian.value = '';
+
+  attendanceDetailInputs.forEach((input) => {
+    input.checked = false;
+  });
+
+  [
+    'f-attendance-details',
+    'f-total',
+    'f-adults',
+    'f-children',
+    'f-chair',
+    'f-vegetarian'
+  ].forEach((id) => setError(id, ''));
+}
 
   function syncChildExtras() {
     const hasChildren = (count('f-children') ?? 0) > 0;
