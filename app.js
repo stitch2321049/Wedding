@@ -69,13 +69,10 @@
   const vegetarian = document.getElementById('f-vegetarian');
   const vegetarianField = document.getElementById('vegetarian-field');
   const chair = document.getElementById('f-chair');
-  const attendanceDetails = document.getElementById('attendance-details-field');
-  const attendanceDetailInputs = document.querySelectorAll('input[name="entry.1645885313"]');
   const status = document.getElementById('form-status');
   const submitButton = document.getElementById('submit-btn');
   const thanks = document.getElementById('thanks');
 const attendanceOnlyFields = [
-  attendanceDetails,
   total?.closest('.field'),
   adults?.closest('.field'),
   children?.closest('.field'),
@@ -105,12 +102,7 @@ function clearAttendanceOnlyValues() {
   if (chair) chair.value = '';
   if (vegetarian) vegetarian.value = '';
 
-  attendanceDetailInputs.forEach((input) => {
-    input.checked = false;
-  });
-
   [
-    'f-attendance-details',
     'f-total',
     'f-adults',
     'f-children',
@@ -191,13 +183,6 @@ function clearAttendanceOnlyValues() {
 } else {
   setError('f-vegetarian', '');
 }
-    const attendanceChoice = document.querySelector('input[name="entry.1645885313"]:checked');
-    if (!attendanceChoice) {
-      setError('f-attendance-details', '請選擇出席資訊');
-      valid = false;
-    } else {
-      setError('f-attendance-details', '');
-    }
 
     const totalCount = count('f-total');
     const adultCount = count('f-adults');
@@ -237,7 +222,6 @@ function clearAttendanceOnlyValues() {
   attend?.addEventListener('change', syncAttendanceFields);
   children?.addEventListener('input', syncChildExtras);
   children?.addEventListener('change', syncChildExtras);
-  attendanceDetailInputs.forEach((input) => input.addEventListener('change', () => setError('f-attendance-details', '')));
 
   form.addEventListener('submit', (event) => {
     if (!validate()) {
